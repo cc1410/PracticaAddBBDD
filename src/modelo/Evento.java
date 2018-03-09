@@ -14,15 +14,13 @@ import java.time.LocalDate;
 public class Evento {
     private Usuario user;
     private LocalDate date;
-    private int type;
 
     public Evento() {
     }
 
-    public Evento(Usuario user, LocalDate date, int type) {
+    public Evento(Usuario user, LocalDate date) {
         this.user = user;
         this.date = date;
-        this.type = type;
     }
 
     public Usuario getUser() {
@@ -40,14 +38,4 @@ public class Evento {
     public void setDate(LocalDate date) {
         this.date = date;
     }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-    
-    
 }

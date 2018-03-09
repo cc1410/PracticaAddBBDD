@@ -40,14 +40,16 @@ public class PracticaAddBBDD {
                 System.out.println(ex.getMessage());
             }
 
-//            MongoCursor<Document> cursor = MailDAO.conectarTabla("user").find().iterator();
-//            try {
-//                while (cursor.hasNext()) {
-//                    System.out.println(cursor.next().toJson());
-//                }
-//            } finally {
-//                cursor.close();
-//            }
+            MongoCursor<Document> cursor = MailDAO.conectarTabla("user").find().iterator();
+            try {
+                while (cursor.hasNext()) {
+                    //String[] split = cursor.next().toJson().split(",");
+                    
+                    System.out.println(cursor.next().toString());
+                }
+            } finally {
+                cursor.close();
+            }
         } else {
             System.err.println("Error de conexión");
         }
