@@ -6,9 +6,15 @@
 package practicaaddbbdd;
 
 import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import dao.MailDAO;
+import static dao.MailDAO.conectar;
+import static dao.MailDAO.conectarBBDD;
+import excepciones.ExcepcionMail;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bson.Document;
 
 /**
@@ -27,20 +33,24 @@ public class PracticaAddBBDD {
             System.out.println("Establecida la conexión.");
             MongoDatabase db = MailDAO.conectarBBDD();
             System.out.println("Prueba insertar un usuario");
-         //  MailDAO.insertUser("chen@chen.com", "stucom", "chenchen");
-           // System.out.println("Usuario insertado");
-            MongoCursor<Document> cursor = MailDAO.conectarTabla("user").find().iterator();
             try {
-                while (cursor.hasNext()) {
-                    System.out.println(cursor.next().toJson());
-                }
-            } finally {
-                cursor.close();
+                MailDAO.insertUser("chen@chen.com", "stucom", "chenchen");
+                System.out.println("Usuario insertado");
+            } catch (ExcepcionMail ex) {
+                System.out.println(ex.getMessage());
             }
+
+//            MongoCursor<Document> cursor = MailDAO.conectarTabla("user").find().iterator();
+//            try {
+//                while (cursor.hasNext()) {
+//                    System.out.println(cursor.next().toJson());
+//                }
+//            } finally {
+//                cursor.close();
+//            }
         } else {
             System.err.println("Error de conexión");
         }
-
     }
 
 }
