@@ -56,6 +56,16 @@ public class MailDAO {
             exist = true;
         }
         return exist;
+    }
 
+    public static boolean validarUser(String mail, String password) {
+        Document findQuery = new Document();
+        findQuery.append("mail", mail).append("password", password);
+        MongoCursor<Document> cursor = conectarTabla("user").find(findQuery).iterator();
+        boolean exist = false;
+        if (cursor.hasNext()) {
+            exist = true;
+        }
+        return exist;
     }
 }

@@ -43,13 +43,21 @@ public class PracticaAddBBDD {
             MongoCursor<Document> cursor = MailDAO.conectarTabla("user").find().iterator();
             try {
                 while (cursor.hasNext()) {
-                    //String[] split = cursor.next().toJson().split(",");
-                    
+                    //String[] split = cursor.next().toJson().split(","); 
                     System.out.println(cursor.next().toString());
                 }
             } finally {
                 cursor.close();
             }
+//            
+//            if(MailDAO.validarUser("chen@chen.com", "stucom")){
+//                System.out.println("Login correcto");
+//            }
+            
+            if(MailDAO.validarUser("c@c.com", "stucom") == false){
+                System.out.println("Login incorrecto");
+            }
+
         } else {
             System.err.println("Error de conexión");
         }
