@@ -22,6 +22,15 @@ public class Mensaje {
     public Mensaje() {
     }
 
+    public Mensaje(String sender, String receiver,String subjet, String body) {
+        this.sender = sender;
+        this.receiver = receiver;
+        this.subjet = subjet;
+        this.body = body;
+    }
+    
+    
+
     public Mensaje(String sender, String receiver, LocalDate date, boolean read, String subjet, String body) {
         this.sender = sender;
         this.receiver = receiver;

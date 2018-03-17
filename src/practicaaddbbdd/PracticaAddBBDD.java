@@ -49,6 +49,8 @@ public class PracticaAddBBDD {
             } finally {
                 cursor.close();
             } 
+            
+            //validando usuario
             if(MailDAO.validarUser("chen@chen.com", "stucom")){
                 System.out.println("Login correcto");
             }
@@ -56,6 +58,43 @@ public class PracticaAddBBDD {
             if(MailDAO.validarUser("c@c.com", "stucom") == false){
                 System.out.println("Login incorrecto");
             }
+            
+            
+            //crea un nuevo usuario
+            try {
+                MailDAO.insertUser("juan@juan.com", "stucom", "juan");
+                System.out.println("Usuario insertado");
+            } catch (ExcepcionMail ex) {
+                System.out.println(ex.getMessage());
+            }
+            
+            //send mail
+            
+             try {
+                MailDAO.sendMail("chen@chen.com", "juan@juan.com", "hola", "esto es una prueba");
+                System.out.println("Mail enviado");
+            } catch (ExcepcionMail ex) {
+                System.out.println(ex.getMessage());
+            }
+            
+            //listar mensajes de un usuario enviados
+            
+            MailDAO.listMAilSenderUser("chen@chen.com");
+            
+            //listar mensajes de un usuario recibidos
+            
+            MailDAO.listMAilReceiverUser("chen@chen.com");
+            
+            
+            cursor = MailDAO.conectarTabla("user").find().iterator();
+            try {
+                while (cursor.hasNext()) {
+                    //String[] split = cursor.next().toJson().split(","); 
+                    System.out.println(cursor.next().toString());
+                }
+            } finally {
+                cursor.close();
+            } 
 
         } else {
             System.err.println("Error de conexión");

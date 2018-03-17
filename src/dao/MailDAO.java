@@ -13,6 +13,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import excepciones.ExcepcionMail;
 import org.bson.Document;
 
@@ -49,7 +50,7 @@ public class MailDAO {
     }
 
     public static boolean existMail(String mail) {
-        Document findQuery = new Document("mail", new Document("$eq", "chen@chen.com"));
+        Document findQuery = new Document("mail", new Document("$eq", mail));
         MongoCursor<Document> cursor = conectarTabla("user").find(findQuery).iterator();
         boolean exist = false;
         if (cursor.hasNext()) {
@@ -68,4 +69,41 @@ public class MailDAO {
         }
         return exist;
     }
+
+    public static void sendMail(String mailFrom, String mailTo, String subjet, String body) throws ExcepcionMail {
+        if (existMail(mailTo) == false) {
+            throw new ExcepcionMail("No existe este mail");
+        }
+
+        Document m = new Document("sender", mailFrom)
+                .append("receiver", mailTo)
+                .append("subjet", subjet)
+                .append("date", date())
+                .append("read", "false")
+                .append("body", body);
+        conectarTabla("message").insertOne(m);
+
+    }
+
+    public static void listMAilReceiverUser(String mail) {
+        Document findQuery = new Document("receiver", new Document("$eq", mail));
+        try (MongoCursor<Document> cursor = conectarTabla("message").find(findQuery).iterator()) {
+            while (cursor.hasNext()) {
+                //String[] split = cursor.next().toJson().split(","); 
+                System.out.println(cursor.next().toString());
+            }
+        }
+
+    }
+    public static void listMAilSenderUser(String mail) {
+        Document findQuery = new Document("sender", new Document("$eq", mail));
+        try (MongoCursor<Document> cursor = conectarTabla("message").find(findQuery).iterator()) {
+            while (cursor.hasNext()) {
+                //String[] split = cursor.next().toJson().split(","); 
+                System.out.println(cursor.next().toString());
+            }
+        }
+
+    }
+
 }
