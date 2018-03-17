@@ -5,6 +5,8 @@
  */
 package vista;
 
+import java.awt.Color;
+
 /**
  *
  * @author Kaua
@@ -16,6 +18,7 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        jpRegistro.setVisible(false);
     }
 
     /**
@@ -27,17 +30,7 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jpLogin = new javax.swing.JPanel();
-        toLoginIMG = new javax.swing.JLabel();
-        nameLoginLabel = new javax.swing.JLabel();
-        userIMG = new javax.swing.JLabel();
-        mailLogin = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
-        passwordLoginLabel = new javax.swing.JLabel();
-        keyIMG = new javax.swing.JLabel();
-        passwordLogin = new javax.swing.JPasswordField();
-        jLabel1 = new javax.swing.JLabel();
+        jpRegistro = new javax.swing.JPanel();
         addUserIMG = new javax.swing.JLabel();
         nameLabel = new javax.swing.JLabel();
         name = new javax.swing.JTextField();
@@ -48,15 +41,93 @@ public class Principal extends javax.swing.JFrame {
         verificarLabel = new javax.swing.JLabel();
         verify1 = new javax.swing.JPasswordField();
         registerIMG = new javax.swing.JLabel();
+        jpLogin = new javax.swing.JPanel();
+        toLoginIMG = new javax.swing.JLabel();
+        nameLoginLabel = new javax.swing.JLabel();
+        userIMG = new javax.swing.JLabel();
+        mailLogin = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        passwordLoginLabel = new javax.swing.JLabel();
+        keyIMG = new javax.swing.JLabel();
+        passwordLogin = new javax.swing.JPasswordField();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(950, 500));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(40, 55, 71));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jpRegistro.setBackground(new java.awt.Color(161, 214, 226));
+        jpRegistro.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jpLogin.setBackground(new java.awt.Color(93, 109, 126));
+        addUserIMG.setBackground(new java.awt.Color(215, 219, 221));
+        addUserIMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        addUserIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-user.png"))); // NOI18N
+        jpRegistro.add(addUserIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 50, 100, 100));
+
+        nameLabel.setBackground(new java.awt.Color(25, 149, 173));
+        nameLabel.setFont(new java.awt.Font("Dubai", 1, 18)); // NOI18N
+        nameLabel.setForeground(new java.awt.Color(25, 149, 173));
+        nameLabel.setText("Nombre:");
+        nameLabel.setFocusable(false);
+        jpRegistro.add(nameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, 120, 20));
+
+        name.setBackground(new java.awt.Color(188, 186, 190));
+        name.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        name.setForeground(new java.awt.Color(25, 150, 226));
+        name.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(188, 186, 190)));
+        name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameActionPerformed(evt);
+            }
+        });
+        jpRegistro.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, 190, 40));
+
+        mailLabel.setBackground(new java.awt.Color(25, 149, 173));
+        mailLabel.setFont(new java.awt.Font("Dubai", 1, 18)); // NOI18N
+        mailLabel.setForeground(new java.awt.Color(25, 149, 173));
+        mailLabel.setText("Mail:");
+        jpRegistro.add(mailLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 180, -1, 20));
+
+        mail.setBackground(new java.awt.Color(188, 186, 190));
+        mail.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        mail.setForeground(new java.awt.Color(25, 150, 226));
+        mail.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(188, 186, 190)));
+        jpRegistro.add(mail, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 200, 190, 40));
+
+        passwordLabel.setBackground(new java.awt.Color(25, 149, 173));
+        passwordLabel.setFont(new java.awt.Font("Dubai", 1, 18)); // NOI18N
+        passwordLabel.setForeground(new java.awt.Color(25, 149, 173));
+        passwordLabel.setText("Password:");
+        jpRegistro.add(passwordLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 280, -1, 20));
+
+        password.setBackground(new java.awt.Color(188, 186, 190));
+        password.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        password.setForeground(new java.awt.Color(25, 150, 226));
+        password.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(188, 186, 190)));
+        jpRegistro.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 300, 190, 40));
+
+        verificarLabel.setBackground(new java.awt.Color(25, 149, 173));
+        verificarLabel.setFont(new java.awt.Font("Dubai", 1, 18)); // NOI18N
+        verificarLabel.setForeground(new java.awt.Color(25, 149, 173));
+        verificarLabel.setText("Verificar password:");
+        jpRegistro.add(verificarLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 280, -1, 20));
+
+        verify1.setBackground(new java.awt.Color(188, 186, 190));
+        verify1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        verify1.setForeground(new java.awt.Color(25, 150, 226));
+        verify1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(188, 186, 190)));
+        jpRegistro.add(verify1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, 190, 40));
+
+        registerIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tick-inside-circle.png"))); // NOI18N
+        registerIMG.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                registerIMGMouseClicked(evt);
+            }
+        });
+        jpRegistro.add(registerIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 370, 70, 70));
+
+        getContentPane().add(jpRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 0, 600, 500));
+
+        jpLogin.setBackground(new java.awt.Color(161, 214, 226));
         jpLogin.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         toLoginIMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -66,9 +137,11 @@ public class Principal extends javax.swing.JFrame {
                 toLoginIMGMouseClicked(evt);
             }
         });
-        jpLogin.add(toLoginIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 70, 60));
+        jpLogin.add(toLoginIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 380, 70, 60));
 
+        nameLoginLabel.setBackground(new java.awt.Color(25, 149, 173));
         nameLoginLabel.setFont(new java.awt.Font("Dubai", 1, 18)); // NOI18N
+        nameLoginLabel.setForeground(new java.awt.Color(25, 149, 173));
         nameLoginLabel.setText("Nombre:");
         jpLogin.add(nameLoginLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
 
@@ -76,16 +149,19 @@ public class Principal extends javax.swing.JFrame {
         userIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/user.png"))); // NOI18N
         jpLogin.add(userIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 30, 30));
 
+        mailLogin.setBackground(new java.awt.Color(188, 186, 190));
         mailLogin.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        mailLogin.setBorder(null);
+        mailLogin.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(188, 186, 190)));
         jpLogin.add(mailLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, 190, 30));
 
+        jLabel13.setBackground(new java.awt.Color(25, 149, 173));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/heather linea.png"))); // NOI18N
         jLabel13.setToolTipText("");
-        jpLogin.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 260, 40));
+        jpLogin.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 260, 20));
 
         passwordLoginLabel.setFont(new java.awt.Font("Dubai", 1, 18)); // NOI18N
+        passwordLoginLabel.setForeground(new java.awt.Color(25, 149, 173));
         passwordLoginLabel.setText("Password:");
         jpLogin.add(passwordLoginLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, -1, -1));
 
@@ -93,62 +169,16 @@ public class Principal extends javax.swing.JFrame {
         keyIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/key.png"))); // NOI18N
         jpLogin.add(keyIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 30, 30));
 
+        passwordLogin.setBackground(new java.awt.Color(188, 186, 190));
         passwordLogin.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        passwordLogin.setText("jPasswordField2");
-        passwordLogin.setBorder(null);
+        passwordLogin.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(188, 186, 190)));
         jpLogin.add(passwordLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 300, 190, 30));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/avatar.png"))); // NOI18N
         jpLogin.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 70, 70));
 
-        jPanel1.add(jpLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(-280, 0, 350, 500));
-
-        addUserIMG.setBackground(new java.awt.Color(215, 219, 221));
-        addUserIMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        addUserIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/add-user.png"))); // NOI18N
-        jPanel1.add(addUserIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, 100, 100));
-
-        nameLabel.setFont(new java.awt.Font("Dubai", 1, 24)); // NOI18N
-        nameLabel.setText("Nombre:");
-        nameLabel.setFocusable(false);
-        jPanel1.add(nameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 140, 90, 40));
-
-        name.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        name.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nameActionPerformed(evt);
-            }
-        });
-        jPanel1.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 180, 190, 40));
-
-        mailLabel.setFont(new java.awt.Font("Dubai", 1, 24)); // NOI18N
-        mailLabel.setText("Mail:");
-        jPanel1.add(mailLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 140, -1, -1));
-
-        mail.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        jPanel1.add(mail, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 180, 190, 40));
-
-        passwordLabel.setFont(new java.awt.Font("Dubai", 1, 24)); // NOI18N
-        passwordLabel.setText("Password:");
-        jPanel1.add(passwordLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 240, -1, -1));
-
-        password.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        password.setText("jPasswordField1");
-        jPanel1.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 280, 190, 40));
-
-        verificarLabel.setFont(new java.awt.Font("Dubai", 1, 24)); // NOI18N
-        verificarLabel.setText("Verificar password:");
-        jPanel1.add(verificarLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 240, -1, -1));
-
-        verify1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        verify1.setText("jPasswordField2");
-        jPanel1.add(verify1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 280, 190, 40));
-
-        registerIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tick-inside-circle.png"))); // NOI18N
-        jPanel1.add(registerIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 350, 70, 70));
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 950, 500));
+        getContentPane().add(jpLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 0, 350, 500));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -159,14 +189,23 @@ public class Principal extends javax.swing.JFrame {
 
     private void toLoginIMGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_toLoginIMGMouseClicked
         // TODO add your handling code here:
-        int posicion = this.jpLogin.getX();
-        System.out.println(posicion);
-        if (posicion > -1) {
-            Animacion.Animacion.mover_izquierda(0, -280, 3, 3, jpLogin);
-        } else {
-            Animacion.Animacion.mover_derecha(-279, 0, 3, 3, jpLogin);
-        }
+//        int posicion = this.jpLogin.getX();
+//        System.out.println(posicion);
+//        if (posicion > -1) {
+//            Animacion.Animacion.mover_izquierda(0, -280, 3, 3, jpLogin);
+//        } else {
+//            Animacion.Animacion.mover_derecha(-279, 0, 3, 3, jpLogin);
+//        }
+//        
+        jpLogin.setVisible(false);
+        jpRegistro.setVisible(true);
     }//GEN-LAST:event_toLoginIMGMouseClicked
+
+    private void registerIMGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerIMGMouseClicked
+
+        jpLogin.setVisible(true);
+        jpRegistro.setVisible(false);
+    }//GEN-LAST:event_registerIMGMouseClicked
 
     /**
      * @param args the command line arguments
@@ -207,8 +246,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel addUserIMG;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jpLogin;
+    private javax.swing.JPanel jpRegistro;
     private javax.swing.JLabel keyIMG;
     private javax.swing.JTextField mail;
     private javax.swing.JLabel mailLabel;
