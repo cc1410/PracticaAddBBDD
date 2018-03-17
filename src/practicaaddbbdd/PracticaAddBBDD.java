@@ -48,18 +48,17 @@ public class PracticaAddBBDD {
                 }
             } finally {
                 cursor.close();
-            } 
-            
+            }
+
             //validando usuario
-            if(MailDAO.validarUser("chen@chen.com", "stucom")){
+            if (MailDAO.validarUser("chen@chen.com", "stucom")) {
                 System.out.println("Login correcto");
             }
-            
-            if(MailDAO.validarUser("c@c.com", "stucom") == false){
+
+            if (MailDAO.validarUser("c@c.com", "stucom") == false) {
                 System.out.println("Login incorrecto");
             }
-            
-            
+
             //crea un nuevo usuario
             try {
                 MailDAO.insertUser("juan@juan.com", "stucom", "juan");
@@ -67,25 +66,26 @@ public class PracticaAddBBDD {
             } catch (ExcepcionMail ex) {
                 System.out.println(ex.getMessage());
             }
-            
+
             //send mail
-            
-             try {
+            try {
                 MailDAO.sendMail("chen@chen.com", "juan@juan.com", "hola", "esto es una prueba");
                 System.out.println("Mail enviado");
             } catch (ExcepcionMail ex) {
                 System.out.println(ex.getMessage());
             }
-            
+
             //listar mensajes de un usuario enviados
-            
             MailDAO.listMAilSenderUser("chen@chen.com");
-            
+
             //listar mensajes de un usuario recibidos
-            
             MailDAO.listMAilReceiverUser("chen@chen.com");
-            
-            
+
+//update name
+            MailDAO.updateName("juan", "juanuchi");
+            //update  password
+            MailDAO.updatePassword("juanuchi", "1234567");
+
             cursor = MailDAO.conectarTabla("user").find().iterator();
             try {
                 while (cursor.hasNext()) {
@@ -94,7 +94,7 @@ public class PracticaAddBBDD {
                 }
             } finally {
                 cursor.close();
-            } 
+            }
 
         } else {
             System.err.println("Error de conexión");

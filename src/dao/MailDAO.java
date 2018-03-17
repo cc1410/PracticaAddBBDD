@@ -13,9 +13,14 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.time;
 import excepciones.ExcepcionMail;
+import static java.time.LocalDateTime.now;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -95,6 +100,7 @@ public class MailDAO {
         }
 
     }
+
     public static void listMAilSenderUser(String mail) {
         Document findQuery = new Document("sender", new Document("$eq", mail));
         try (MongoCursor<Document> cursor = conectarTabla("message").find(findQuery).iterator()) {
@@ -105,5 +111,29 @@ public class MailDAO {
         }
 
     }
+
+   //update
+    
+    
+    public static void updateName(String name, String nameChange){
+        conectarTabla("user").updateOne(Filters.eq("name", name), Updates.set("name", nameChange));
+        
+    }
+    
+    public static void updatePassword(String name, String newpassword){
+        conectarTabla("user").updateOne(Filters.eq("name", name), Updates.set("password", newpassword));
+    }
+
+    
+    //borrar mail
+    
+    
+    
+    //buscar mail por subjet
+    
+    
+    //cambiar mail no leido por leido
+    
+    
 
 }
