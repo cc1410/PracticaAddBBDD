@@ -18,7 +18,9 @@ import com.mongodb.client.model.Updates;
 import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.time;
 import excepciones.ExcepcionMail;
+import java.text.SimpleDateFormat;
 import static java.time.LocalDateTime.now;
+import java.util.Calendar;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -79,11 +81,11 @@ public class MailDAO {
         if (existMail(mailTo) == false) {
             throw new ExcepcionMail("No existe este mail");
         }
-
+        String timeStamp = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
         Document m = new Document("sender", mailFrom)
                 .append("receiver", mailTo)
                 .append("subjet", subjet)
-                .append("date", date())
+                .append("date", timeStamp)
                 .append("read", "false")
                 .append("body", body);
         conectarTabla("message").insertOne(m);
@@ -112,28 +114,17 @@ public class MailDAO {
 
     }
 
-   //update
-    
-    
-    public static void updateName(String name, String nameChange){
+    //update
+    public static void updateName(String name, String nameChange) {
         conectarTabla("user").updateOne(Filters.eq("name", name), Updates.set("name", nameChange));
-        
+
     }
-    
-    public static void updatePassword(String name, String newpassword){
+
+    public static void updatePassword(String name, String newpassword) {
         conectarTabla("user").updateOne(Filters.eq("name", name), Updates.set("password", newpassword));
     }
 
-    
     //borrar mail
-    
-    
-    
     //buscar mail por subjet
-    
-    
     //cambiar mail no leido por leido
-    
-    
-
 }
