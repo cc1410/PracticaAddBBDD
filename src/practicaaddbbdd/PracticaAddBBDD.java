@@ -6,15 +6,10 @@
 package practicaaddbbdd;
 
 import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import dao.MailDAO;
-import static dao.MailDAO.conectar;
-import static dao.MailDAO.conectarBBDD;
 import excepciones.ExcepcionMail;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bson.Document;
 
 /**
@@ -81,11 +76,13 @@ public class PracticaAddBBDD {
             //listar mensajes de un usuario recibidos
             MailDAO.listMAilReceiverUser("chen@chen.com");
 
-//update name
+            //update name
             MailDAO.updateName("juan", "juanuchi");
             //update  password
             MailDAO.updatePassword("juanuchi", "1234567");
 
+            MailDAO.deleteMail("juan@juan.com", "chen@chen.com", "2018/03/17 18:40:24");
+            
             cursor = MailDAO.conectarTabla("user").find().iterator();
             try {
                 while (cursor.hasNext()) {
