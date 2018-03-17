@@ -48,11 +48,10 @@ public class PracticaAddBBDD {
                 }
             } finally {
                 cursor.close();
+            } 
+            if(MailDAO.validarUser("chen@chen.com", "stucom")){
+                System.out.println("Login correcto");
             }
-//            
-//            if(MailDAO.validarUser("chen@chen.com", "stucom")){
-//                System.out.println("Login correcto");
-//            }
             
             if(MailDAO.validarUser("c@c.com", "stucom") == false){
                 System.out.println("Login incorrecto");
