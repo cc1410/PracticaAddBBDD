@@ -26,7 +26,6 @@ public class PracticaAddBBDD {
         MongoClient mongo = MailDAO.conectar();
         if (mongo != null) {
             System.out.println("Establecida la conexión.");
-            MongoDatabase db = MailDAO.conectarBBDD();
             System.out.println("Prueba insertar un usuario");
             try {
                 MailDAO.insertUser("chen@chen.com", "stucom", "chenchen");
@@ -82,7 +81,7 @@ public class PracticaAddBBDD {
             MailDAO.updatePassword("juanuchi", "1234567");
 
             MailDAO.deleteMail("juan@juan.com", "chen@chen.com", "2018/03/17 18:40:24");
-            
+
             cursor = MailDAO.conectarTabla("user").find().iterator();
             try {
                 while (cursor.hasNext()) {
@@ -95,6 +94,15 @@ public class PracticaAddBBDD {
 
         } else {
             System.err.println("Error de conexión");
+        }
+    }
+
+    public static void conectarMongo() {
+        MongoClient mongo = MailDAO.conectar();
+        if (mongo != null) {
+
+        }else{
+            System.out.println("Error de conection");
         }
     }
 

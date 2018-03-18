@@ -5,7 +5,12 @@
  */
 package vista;
 
+import dao.MailDAO;
+import excepciones.ExcepcionMail;
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static practicaaddbbdd.PracticaAddBBDD.conectarMongo;
 
 /**
  *
@@ -18,7 +23,9 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        conectarMongo();
         jpRegistro.setVisible(false);
+
     }
 
     /**
@@ -103,7 +110,7 @@ public class Principal extends javax.swing.JFrame {
         password.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         password.setForeground(new java.awt.Color(25, 150, 226));
         password.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(188, 186, 190)));
-        jpRegistro.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 300, 190, 40));
+        jpRegistro.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 310, 190, 40));
 
         verificarLabel.setBackground(new java.awt.Color(25, 149, 173));
         verificarLabel.setFont(new java.awt.Font("Dubai", 1, 18)); // NOI18N
@@ -115,7 +122,7 @@ public class Principal extends javax.swing.JFrame {
         verify1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         verify1.setForeground(new java.awt.Color(25, 150, 226));
         verify1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(188, 186, 190)));
-        jpRegistro.add(verify1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, 190, 40));
+        jpRegistro.add(verify1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 310, 190, 40));
 
         registerIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tick-inside-circle.png"))); // NOI18N
         registerIMG.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -142,7 +149,7 @@ public class Principal extends javax.swing.JFrame {
         nameLoginLabel.setBackground(new java.awt.Color(25, 149, 173));
         nameLoginLabel.setFont(new java.awt.Font("Dubai", 1, 18)); // NOI18N
         nameLoginLabel.setForeground(new java.awt.Color(25, 149, 173));
-        nameLoginLabel.setText("Nombre:");
+        nameLoginLabel.setText("Mail:");
         jpLogin.add(nameLoginLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
 
         userIMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -197,14 +204,33 @@ public class Principal extends javax.swing.JFrame {
 //            Animacion.Animacion.mover_derecha(-279, 0, 3, 3, jpLogin);
 //        }
 //        
-        jpLogin.setVisible(false);
-        jpRegistro.setVisible(true);
+        char[] arrayC = passwordLogin.getPassword();
+        String pass = new String(arrayC);
+        if (MailDAO.validarUser(mailLogin.getText(), pass)) {
+            Menu m = new Menu(this, true);
+            m.setLocationRelativeTo(null);
+            m.setVisible(true);
+        } else {
+            System.out.println("Password o mail incorrecto");
+        }
+//        jpLogin.setVisible(false);
+//        jpRegistro.setVisible(true);
     }//GEN-LAST:event_toLoginIMGMouseClicked
 
     private void registerIMGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerIMGMouseClicked
 
+//        try {
+//            char[] arrayC = password.getPassword();
+//            String pass = new String(arrayC);
+//            MailDAO.insertUser(mail.getText(), pass, name.getText());
+//            System.out.println("Usuario insertado");
+//        } catch (ExcepcionMail ex) {
+//            System.out.println("No ha insertado bien");
+//        }
         jpLogin.setVisible(true);
         jpRegistro.setVisible(false);
+
+
     }//GEN-LAST:event_registerIMGMouseClicked
 
     /**
