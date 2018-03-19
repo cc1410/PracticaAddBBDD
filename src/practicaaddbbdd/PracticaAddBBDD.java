@@ -10,7 +10,9 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import dao.MailDAO;
 import excepciones.ExcepcionMail;
+import modelo.Usuario;
 import org.bson.Document;
+import vista.Principal;
 
 /**
  *
@@ -21,8 +23,10 @@ public class PracticaAddBBDD {
     /**
      * @param args the command line arguments
      */
+    public static String usuarioLogeado;
+
     public static void main(String[] args) {
-        System.out.println("Prueba conexion MongoDB");
+        /*System.out.println("Prueba conexion MongoDB");
         MongoClient mongo = MailDAO.conectar();
         if (mongo != null) {
             System.out.println("Establecida la conexión.");
@@ -94,14 +98,17 @@ public class PracticaAddBBDD {
 
         } else {
             System.err.println("Error de conexión");
-        }
+        }*/
+        Principal p = new Principal();
+        p.setLocationRelativeTo(null);
+        p.setVisible(true);
     }
 
     public static void conectarMongo() {
         MongoClient mongo = MailDAO.conectar();
         if (mongo != null) {
 
-        }else{
+        } else {
             System.out.println("Error de conection");
         }
     }
