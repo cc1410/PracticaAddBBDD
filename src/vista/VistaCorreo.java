@@ -5,17 +5,30 @@
  */
 package vista;
 
+import modelo.Mensaje;
+
 /**
  *
  * @author Kaua
  */
 public class VistaCorreo extends javax.swing.JDialog {
 
+    private Mensaje mensaje;
+
+    public Mensaje getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(Mensaje mensaje) {
+        this.mensaje = mensaje;
+    }
+
     /**
      * Creates new form VistaCorreo
      */
-    public VistaCorreo(java.awt.Frame parent, boolean modal) {
+    public VistaCorreo(java.awt.Dialog parent, boolean modal, Mensaje m) {
         super(parent, modal);
+        this.mensaje = m;
         initComponents();
     }
 
@@ -27,20 +40,23 @@ public class VistaCorreo extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jPanel1 = new javax.swing.JPanel();
         name = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         search = new javax.swing.JTextField();
         searchIMG = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        body = new javax.swing.JTextArea();
         deleteIMG = new javax.swing.JLabel();
-        subject = new javax.swing.JTextField();
-        sender = new javax.swing.JTextField();
         replyIMG = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setFocusable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -68,23 +84,45 @@ public class VistaCorreo extends javax.swing.JDialog {
         searchIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/magnifier.png"))); // NOI18N
         jPanel1.add(searchIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 40, 40));
 
-        body.setColumns(20);
-        body.setRows(5);
-        jScrollPane1.setViewportView(body);
-
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 900, 260));
-
         deleteIMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         deleteIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/rubbish-bin.png"))); // NOI18N
         jPanel1.add(deleteIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 80, 60, 60));
-        jPanel1.add(subject, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 900, 30));
-        jPanel1.add(sender, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 900, 30));
 
         replyIMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         replyIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/reply-arrow.png"))); // NOI18N
         jPanel1.add(replyIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 60, 60));
 
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${mensaje.sender}"), jLabel1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 240, 30));
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${mensaje.subjet}"), jLabel2, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 240, 30));
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${mensaje.body}"), jTextPane1, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jScrollPane2.setViewportView(jTextPane1);
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 920, 270));
+
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${mensaje.date}"), jLabel3, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 166, 230, 40));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 950, 500));
+
+        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -100,56 +138,21 @@ public class VistaCorreo extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaCorreo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaCorreo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaCorreo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaCorreo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                VistaCorreo dialog = new VistaCorreo(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea body;
     private javax.swing.JLabel deleteIMG;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextPane jTextPane1;
     private javax.swing.JLabel name;
     private javax.swing.JLabel replyIMG;
     private javax.swing.JTextField search;
     private javax.swing.JLabel searchIMG;
-    private javax.swing.JTextField sender;
-    private javax.swing.JTextField subject;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

@@ -34,12 +34,19 @@ public class ListMensaje extends javax.swing.JDialog {
         this.mensajeRecibido = mensajeRecibido;
     }
 
-    boolean sender = false;
-
     public void setMensajes(List<Mensaje> mensajes) {
         this.mensajes = mensajes;
     }
-    DefaultTableModel modelo = new DefaultTableModel();
+
+    private Mensaje mensajeSeleccionado;
+
+    public Mensaje getMensajeSeleccionado() {
+        return mensajeSeleccionado;
+    }
+
+    public void setMensajeSeleccionado(Mensaje mensajeSeleccionado) {
+        this.mensajeSeleccionado = mensajeSeleccionado;
+    }
 
     /**
      * Creates new form ListMensaje
@@ -47,14 +54,10 @@ public class ListMensaje extends javax.swing.JDialog {
     public ListMensaje(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         System.out.println(usuarioLogeado);
-        //jTable3.setVisible(false);
-
+        //jPanel2.setVisible(false);
         mensajeRecibido = MailDAO.listMAilReceiverUser(usuarioLogeado);
-
         mensajes = MailDAO.listMAilSenderUser(usuarioLogeado);
-
         initComponents();
-
     }
 
     /**
@@ -69,8 +72,14 @@ public class ListMensaje extends javax.swing.JDialog {
 
         jbRecibido = new javax.swing.JButton();
         jbEnviado = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -81,7 +90,7 @@ public class ListMensaje extends javax.swing.JDialog {
                 jbRecibidoActionPerformed(evt);
             }
         });
-        getContentPane().add(jbRecibido, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, -1, -1));
+        getContentPane().add(jbRecibido, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
 
         jbEnviado.setText("Mensaje enviado");
         jbEnviado.addActionListener(new java.awt.event.ActionListener() {
@@ -89,7 +98,52 @@ public class ListMensaje extends javax.swing.JDialog {
                 jbEnviadoActionPerformed(evt);
             }
         });
-        getContentPane().add(jbEnviado, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, -1, -1));
+        getContentPane().add(jbEnviado, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 50, -1, -1));
+
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${mensajeRecibido}");
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTable1);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${sender}"));
+        columnBinding.setColumnName("Sender");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${subjet}"));
+        columnBinding.setColumnName("Subjet");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${date}"));
+        columnBinding.setColumnName("Date");
+        columnBinding.setColumnClass(String.class);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${mensajeSeleccionado}"), jTable1, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
+        bindingGroup.addBinding(binding);
+
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1000, 370));
+
+        jLabel2.setText("Mensajes Recibidos");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 1000, 430));
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -103,9 +157,9 @@ public class ListMensaje extends javax.swing.JDialog {
             }
         ));
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${mensajes}");
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTable3);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${sender}"));
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${mensajes}");
+        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTable3);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${sender}"));
         columnBinding.setColumnName("Sender");
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${subjet}"));
@@ -115,10 +169,22 @@ public class ListMensaje extends javax.swing.JDialog {
         columnBinding.setColumnName("Date");
         columnBinding.setColumnClass(String.class);
         bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
+        jTableBinding.bind();binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${mensajeSeleccionado}"), jTable3, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
+        bindingGroup.addBinding(binding);
+
+        jTable3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable3MouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTable3);
 
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 850, 350));
+        jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1000, 350));
+
+        jLabel1.setText("Mensaje Enviados");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 1000, 430));
 
         bindingGroup.bind();
 
@@ -126,14 +192,24 @@ public class ListMensaje extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbRecibidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRecibidoActionPerformed
- 
-        jTable3.setVisible(false);
+        jPanel1.setVisible(false);
+        jPanel2.setVisible(true);
     }//GEN-LAST:event_jbRecibidoActionPerformed
 
     private void jbEnviadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEnviadoActionPerformed
-     
-        jTable3.setVisible(true);
+        jPanel1.setVisible(true);
+        jPanel2.setVisible(false);
     }//GEN-LAST:event_jbEnviadoActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        VistaCorreo v = new VistaCorreo(this, true, mensajeSeleccionado);
+        v.setVisible(true);
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTable3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable3MouseClicked
+        VistaCorreo v = new VistaCorreo(this, true, mensajeSeleccionado);
+        v.setVisible(true);
+    }//GEN-LAST:event_jTable3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -178,7 +254,13 @@ public class ListMensaje extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable3;
     private javax.swing.JButton jbEnviado;
     private javax.swing.JButton jbRecibido;
