@@ -223,7 +223,7 @@ public class Principal extends javax.swing.JFrame {
         if (MailDAO.validarUser(mailLogin.getText(), pass)) {
             usuarioLogeado = mailLogin.getText();
             this.setVisible(false);
-            Menu m = new Menu(this, true);
+            ListMensaje m = new ListMensaje(this, true);
             m.setLocationRelativeTo(null);
             m.setVisible(true);
         } else {

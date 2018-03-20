@@ -14,10 +14,20 @@ import java.time.LocalDate;
 public class Mensaje {
     private String sender;
     private String receiver;
-    private LocalDate date;
-    private boolean read;
+    private String date;
+    private String read;
     private String subjet;
     private String body;
+
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Mensaje() {
     }
@@ -31,7 +41,7 @@ public class Mensaje {
     
     
 
-    public Mensaje(String sender, String receiver, LocalDate date, boolean read, String subjet, String body) {
+    public Mensaje(String sender, String receiver, String date, String read, String subjet, String body) {
         this.sender = sender;
         this.receiver = receiver;
         this.date = date;
@@ -56,19 +66,19 @@ public class Mensaje {
         this.receiver = receiver;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public boolean isRead() {
+    public String isRead() {
         return read;
     }
 
-    public void setRead(boolean read) {
+    public void setRead(String read) {
         this.read = read;
     }
 
@@ -86,6 +96,11 @@ public class Mensaje {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    @Override
+    public String toString() {
+        return "Mensaje{" + "sender=" + sender + ", receiver=" + receiver + ", date=" + date + ", read=" + read + ", subjet=" + subjet + ", body=" + body + '}';
     }
     
     

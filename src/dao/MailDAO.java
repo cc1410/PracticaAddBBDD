@@ -5,6 +5,7 @@
  */
 package dao;
 
+import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -12,8 +13,13 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import excepciones.ExcepcionMail;
+import java.awt.List;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
+import modelo.Mensaje;
 import org.bson.Document;
 
 /**
@@ -84,26 +90,33 @@ public class MailDAO {
 
     }
 
-    public static void listMAilReceiverUser(String mail) {
+    public static ArrayList<Mensaje> listMAilReceiverUser(String mail) {
         Document findQuery = new Document("receiver", new Document("$eq", mail));
+        ArrayList<Mensaje> mensaje = new ArrayList<>();
         try (MongoCursor<Document> cursor = conectarTabla("message").find(findQuery).iterator()) {
+
             while (cursor.hasNext()) {
-                //String[] split = cursor.next().toJson().split(","); 
-                System.out.println(cursor.next().toString());
+                String json = cursor.next().toJson();
+                Gson gson = new Gson();
+                Mensaje m = gson.fromJson(json, Mensaje.class);
+                mensaje.add(m);
             }
         }
-
+        return mensaje;
     }
 
-    public static void listMAilSenderUser(String mail) {
+    public static ArrayList<Mensaje> listMAilSenderUser(String mail) {
         Document findQuery = new Document("sender", new Document("$eq", mail));
+        ArrayList<Mensaje> mensaje = new ArrayList<>();
         try (MongoCursor<Document> cursor = conectarTabla("message").find(findQuery).iterator()) {
             while (cursor.hasNext()) {
-                //String[] split = cursor.next().toJson().split(","); 
-                System.out.println(cursor.next().toString());
+                String json = cursor.next().toJson();
+                Gson gson = new Gson();
+                Mensaje m = gson.fromJson(json, Mensaje.class);
+                mensaje.add(m);
             }
         }
-
+        return mensaje;
     }
 
     //update
@@ -115,9 +128,9 @@ public class MailDAO {
     public static void updatePassword(String name, String newpassword) {
         conectarTabla("user").updateOne(Filters.eq("name", name), Updates.set("password", newpassword));
     }
-    
-    public static void deleteMail(String receiver, String sender, String dateTime){
-         Document findQuery = new Document();
+
+    public static void deleteMail(String receiver, String sender, String dateTime) {
+        Document findQuery = new Document();
         findQuery.append("receiver", receiver).append("sender", sender).append("date", dateTime);
         MongoCursor<Document> cursor = conectarTabla("message").find(findQuery).iterator();
         if (cursor.hasNext()) {
