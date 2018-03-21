@@ -5,7 +5,12 @@
  */
 package vista;
 
+import dao.MailDAO;
+import excepciones.ExcepcionMail;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import modelo.Mensaje;
+import static practicaaddbbdd.PracticaAddBBDD.usuarioLogeado;
 
 /**
  *
@@ -26,10 +31,12 @@ public class VistaCorreo extends javax.swing.JDialog {
     /**
      * Creates new form VistaCorreo
      */
-    public VistaCorreo(java.awt.Dialog parent, boolean modal, Mensaje m) {
+    public VistaCorreo(java.awt.Frame parent, boolean modal, Mensaje m) {
         super(parent, modal);
         this.mensaje = m;
         initComponents();
+        sendEmail.setVisible(false);
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -42,11 +49,7 @@ public class VistaCorreo extends javax.swing.JDialog {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        jPanel1 = new javax.swing.JPanel();
-        name = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        search = new javax.swing.JTextField();
-        searchIMG = new javax.swing.JLabel();
+        jpShowEmail = new javax.swing.JPanel();
         deleteIMG = new javax.swing.JLabel();
         replyIMG = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -54,105 +57,191 @@ public class VistaCorreo extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextPane1 = new javax.swing.JTextPane();
         jLabel3 = new javax.swing.JLabel();
+        sendEmail = new javax.swing.JPanel();
+        subject = new javax.swing.JTextField();
+        canselIMG = new javax.swing.JLabel();
+        sendIMG = new javax.swing.JLabel();
+        jLAsunto = new javax.swing.JLabel();
+        jLPara = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tlBody = new javax.swing.JTextArea();
+        jLabel4 = new javax.swing.JLabel();
+        jlbMessageSend = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setFocusable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        name.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        name.setText("NAME");
-        jPanel1.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 30, 100, 30));
-
-        jButton1.setText("Buscar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 20, -1, 40));
-
-        search.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchActionPerformed(evt);
-            }
-        });
-        jPanel1.add(search, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, 410, 40));
-
-        searchIMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        searchIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/magnifier.png"))); // NOI18N
-        jPanel1.add(searchIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 40, 40));
+        jpShowEmail.setBackground(new java.awt.Color(241, 241, 242));
+        jpShowEmail.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         deleteIMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        deleteIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/rubbish-bin.png"))); // NOI18N
-        jPanel1.add(deleteIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 80, 60, 60));
+        deleteIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Remove_50px.png"))); // NOI18N
+        jpShowEmail.add(deleteIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 10, 60, 60));
 
         replyIMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        replyIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/reply-arrow.png"))); // NOI18N
-        jPanel1.add(replyIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 60, 60));
+        replyIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Reply_All_Arrow_50px_1.png"))); // NOI18N
+        replyIMG.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                replyIMGMouseClicked(evt);
+            }
+        });
+        jpShowEmail.add(replyIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 70, 60));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(161, 214, 226)));
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${mensaje.sender}"), jLabel1, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 240, 30));
+        jpShowEmail.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 520, 30));
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(161, 214, 226)));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${mensaje.subjet}"), jLabel2, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 240, 30));
+        jpShowEmail.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 520, 30));
+
+        jScrollPane2.setBorder(null);
+
+        jTextPane1.setEditable(false);
+        jTextPane1.setBackground(new java.awt.Color(241, 241, 242));
+        jTextPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(161, 214, 226)));
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${mensaje.body}"), jTextPane1, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         jScrollPane2.setViewportView(jTextPane1);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 920, 270));
+        jpShowEmail.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 920, 320));
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${mensaje.date}"), jLabel3, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 166, 230, 40));
+        jpShowEmail.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 166, 230, 40));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 950, 500));
+        getContentPane().add(jpShowEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 950, 500));
+
+        sendEmail.setBackground(new java.awt.Color(241, 241, 242));
+        sendEmail.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        sendEmail.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        subject.setBackground(new java.awt.Color(188, 186, 190));
+        subject.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        subject.setForeground(new java.awt.Color(0, 0, 0));
+        subject.setBorder(null);
+        sendEmail.add(subject, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 76, 510, 20));
+
+        canselIMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        canselIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/clear-button.png"))); // NOI18N
+        canselIMG.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                canselIMGMouseClicked(evt);
+            }
+        });
+        sendEmail.add(canselIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 20, 40, 40));
+
+        sendIMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        sendIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/forward-arrow.png"))); // NOI18N
+        sendIMG.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                sendIMGMouseClicked(evt);
+            }
+        });
+        sendEmail.add(sendIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 340, 50, 50));
+
+        jLAsunto.setForeground(new java.awt.Color(25, 149, 173));
+        jLAsunto.setText("Asunto:");
+        sendEmail.add(jLAsunto, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 76, 50, 20));
+
+        jLPara.setForeground(new java.awt.Color(25, 149, 173));
+        jLPara.setText("Para:");
+        sendEmail.add(jLPara, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 50, 30));
+
+        jScrollPane1.setBorder(null);
+
+        tlBody.setBackground(new java.awt.Color(188, 186, 190));
+        tlBody.setColumns(20);
+        tlBody.setRows(5);
+        jScrollPane1.setViewportView(tlBody);
+
+        sendEmail.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 840, 220));
+
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${mensaje.sender}"), jLabel4, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        sendEmail.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, 160, 30));
+
+        jlbMessageSend.setForeground(new java.awt.Color(25, 149, 173));
+        jlbMessageSend.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        sendEmail.add(jlbMessageSend, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 360, 30));
+
+        getContentPane().add(sendEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 950, 420));
 
         bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void canselIMGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_canselIMGMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        jlbMessageSend.setText("");
+        jpShowEmail.setVisible(true);
+        sendEmail.setVisible(false);
+    }//GEN-LAST:event_canselIMGMouseClicked
 
-    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchActionPerformed
+    private void sendIMGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sendIMGMouseClicked
+
+        try {
+            MailDAO.sendMail(usuarioLogeado, mensaje.getSender(), subject.getText(), tlBody.getText());
+            jlbMessageSend.setText("Mensaje enviado");
+            subject.setText("");
+            tlBody.setText("");
+        } catch (ExcepcionMail ex) {
+            showErrorMessage(ex.getMessage());
+        }
+
+    }//GEN-LAST:event_sendIMGMouseClicked
+
+    private void replyIMGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_replyIMGMouseClicked
+        sendEmail.setVisible(true);
+        jpShowEmail.setVisible(false);
+    }//GEN-LAST:event_replyIMGMouseClicked
+
+    public void showErrorMessage(String message) {
+        ImageIcon icon = new ImageIcon("C:\\Users\\chen\\Google Drive\\DAM2\\Programacion\\Daniel\\PracticaAddBBDD\\src\\images\\icons8_Error_50px.png");
+        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.WARNING_MESSAGE, icon);
+    }
 
     /**
      * @param args the command line arguments
      */
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel canselIMG;
     private javax.swing.JLabel deleteIMG;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLAsunto;
+    private javax.swing.JLabel jLPara;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextPane jTextPane1;
-    private javax.swing.JLabel name;
+    private javax.swing.JLabel jlbMessageSend;
+    private javax.swing.JPanel jpShowEmail;
     private javax.swing.JLabel replyIMG;
-    private javax.swing.JTextField search;
-    private javax.swing.JLabel searchIMG;
+    private javax.swing.JPanel sendEmail;
+    private javax.swing.JLabel sendIMG;
+    private javax.swing.JTextField subject;
+    private javax.swing.JTextArea tlBody;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,7 +5,20 @@
  */
 package vista;
 
+
+import dao.MailDAO;
+import excepciones.ExcepcionMail;
+import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import modelo.Mensaje;
+import static practicaaddbbdd.PracticaAddBBDD.usuarioLogeado;
 
 /**
  *
@@ -16,8 +29,43 @@ public class Inicio extends javax.swing.JFrame {
     /**
      * Creates new form Inicio
      */
+    private List<Mensaje> mensajes;
+
+    public List<Mensaje> getMensajes() {
+        return mensajes;
+    }
+
+    private List<Mensaje> mensajeRecibido;
+
+    public List<Mensaje> getMensajeRecibido() {
+        return mensajeRecibido;
+    }
+
+    public void setMensajeRecibido(List<Mensaje> mensajeRecibido) {
+        this.mensajeRecibido = mensajeRecibido;
+    }
+
+    public void setMensajes(List<Mensaje> mensajes) {
+        this.mensajes = mensajes;
+    }
+
+    private Mensaje mensajeSeleccionado;
+
+    public Mensaje getMensajeSeleccionado() {
+        return mensajeSeleccionado;
+    }
+
+    public void setMensajeSeleccionado(Mensaje mensajeSeleccionado) {
+        this.mensajeSeleccionado = mensajeSeleccionado;
+    }
+
     public Inicio() {
+        mensajeRecibido = MailDAO.listMAilReceiverUser(usuarioLogeado);
+        mensajes = MailDAO.listMAilSenderUser(usuarioLogeado);
         initComponents();
+        sendEmail.setVisible(false);
+        jPanel3.setVisible(false);
+        tlBody.setLineWrap(true);
         this.setLocationRelativeTo(null);
     }
 
@@ -29,41 +77,48 @@ public class Inicio extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jPanel1 = new javax.swing.JPanel();
-        jpMenu = new javax.swing.JPanel();
-        tbMenu = new javax.swing.JToggleButton();
+        redactEmailIMG = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jtRecibidos = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtEnviados = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        jbRecibidos = new javax.swing.JButton();
+        jbEnviados = new javax.swing.JButton();
+        sendEmail = new javax.swing.JPanel();
+        forEmail = new javax.swing.JTextField();
+        subject = new javax.swing.JTextField();
+        canselIMG = new javax.swing.JLabel();
+        sendIMG = new javax.swing.JLabel();
+        jLAsunto = new javax.swing.JLabel();
+        jLPara = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tlBody = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(241, 241, 242));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jpMenu.setBackground(new java.awt.Color(241, 234, 255));
-        jpMenu.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jpMenu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        tbMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Menu_50px.png"))); // NOI18N
-        tbMenu.setBorder(null);
-        tbMenu.setBorderPainted(false);
-        tbMenu.setContentAreaFilled(false);
-        tbMenu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        tbMenu.setFocusable(false);
-        tbMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+        redactEmailIMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        redactEmailIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/sent-mail.png"))); // NOI18N
+        redactEmailIMG.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbMenuMouseClicked(evt);
+                redactEmailIMGMouseClicked(evt);
             }
         });
-        jpMenu.add(tbMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(154, 5, 40, 40));
-
-        jPanel1.add(jpMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(-150, 0, 200, 500));
+        jPanel1.add(redactEmailIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 40, 40));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Delete_26px.png"))); // NOI18N
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -83,7 +138,17 @@ public class Inicio extends javax.swing.JFrame {
         });
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 10, -1, -1));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jPanel2.setBackground(new java.awt.Color(241, 241, 242));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(25, 149, 173));
+        jLabel3.setText("Mails Recibidos");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jtRecibidos.setAutoCreateRowSorter(true);
+        jtRecibidos.setBackground(new java.awt.Color(241, 241, 242));
+        jtRecibidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -94,30 +159,167 @@ public class Inicio extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, 950, 360));
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${mensajeRecibido}");
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jtRecibidos);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${sender}"));
+        columnBinding.setColumnName("Sender");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${subjet}"));
+        columnBinding.setColumnName("Subjet");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${date}"));
+        columnBinding.setColumnName("Date");
+        columnBinding.setColumnClass(String.class);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${mensajeSeleccionado}"), jtRecibidos, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
+        bindingGroup.addBinding(binding);
+
+        jtRecibidos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtRecibidosMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jtRecibidos);
+
+        jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 1000, 360));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1000, 400));
+
+        jPanel3.setBackground(new java.awt.Color(241, 241, 242));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jtEnviados.setBackground(new java.awt.Color(241, 241, 242));
+        jtEnviados.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${mensajes}");
+        jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jtEnviados);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${sender}"));
+        columnBinding.setColumnName("Sender");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${subjet}"));
+        columnBinding.setColumnName("Subjet");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${date}"));
+        columnBinding.setColumnName("Date");
+        columnBinding.setColumnClass(String.class);
+        bindingGroup.addBinding(jTableBinding);
+        jTableBinding.bind();binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${mensajeSeleccionado}"), jtEnviados, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
+        bindingGroup.addBinding(binding);
+
+        jtEnviados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtEnviadosMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jtEnviados);
+
+        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 1000, 360));
+
+        jLabel4.setBackground(new java.awt.Color(25, 149, 173));
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(25, 149, 173));
+        jLabel4.setText("Mails Enviados");
+        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 140, 30));
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1000, 400));
+
+        jbRecibidos.setBackground(new java.awt.Color(161, 214, 226));
+        jbRecibidos.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jbRecibidos.setForeground(new java.awt.Color(241, 241, 242));
+        jbRecibidos.setText("Recibidos");
+        jbRecibidos.setBorder(null);
+        jbRecibidos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbRecibidosActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jbRecibidos, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 50, 100, 30));
+
+        jbEnviados.setBackground(new java.awt.Color(161, 214, 226));
+        jbEnviados.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jbEnviados.setForeground(new java.awt.Color(241, 241, 242));
+        jbEnviados.setText("Enviados");
+        jbEnviados.setBorder(null);
+        jbEnviados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbEnviadosActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jbEnviados, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, 100, 30));
+
+        sendEmail.setBackground(new java.awt.Color(241, 241, 242));
+        sendEmail.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        sendEmail.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        forEmail.setBackground(new java.awt.Color(188, 186, 190));
+        forEmail.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        forEmail.setForeground(new java.awt.Color(0, 0, 0));
+        forEmail.setBorder(null);
+        forEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                forEmailActionPerformed(evt);
+            }
+        });
+        sendEmail.add(forEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 36, 510, 20));
+
+        subject.setBackground(new java.awt.Color(188, 186, 190));
+        subject.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        subject.setForeground(new java.awt.Color(0, 0, 0));
+        subject.setBorder(null);
+        sendEmail.add(subject, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 76, 510, 20));
+
+        canselIMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        canselIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/clear-button.png"))); // NOI18N
+        canselIMG.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                canselIMGMouseClicked(evt);
+            }
+        });
+        sendEmail.add(canselIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 350, 40, 40));
+
+        sendIMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        sendIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/forward-arrow.png"))); // NOI18N
+        sendIMG.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                sendIMGMouseClicked(evt);
+            }
+        });
+        sendEmail.add(sendIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 340, 50, 50));
+
+        jLAsunto.setForeground(new java.awt.Color(25, 149, 173));
+        jLAsunto.setText("Asunto:");
+        sendEmail.add(jLAsunto, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 76, 50, 20));
+
+        jLPara.setForeground(new java.awt.Color(25, 149, 173));
+        jLPara.setText("Para:");
+        sendEmail.add(jLPara, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 50, 30));
+
+        tlBody.setBackground(new java.awt.Color(188, 186, 190));
+        tlBody.setColumns(20);
+        tlBody.setRows(5);
+        jScrollPane1.setViewportView(tlBody);
+
+        sendEmail.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 840, 220));
+
+        jPanel1.add(sendEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1000, 400));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 500));
 
+        bindingGroup.bind();
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tbMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbMenuMouseClicked
-        if (tbMenu.isSelected()) {
-            tbMenu.setIcon(new ImageIcon(getClass().getResource("/images/icons8_Multiply_50px.png")));
-        } else {
-            tbMenu.setIcon(new ImageIcon(getClass().getResource("/images/icons8_Menu_50px.png")));
-        }
-        int posicion = this.jpMenu.getX();
-        if (posicion > -1) {
-            Animacion.Animacion.mover_izquierda(0, -150, 3, 3, jpMenu);
-        } else {
-            Animacion.Animacion.mover_derecha(-150, 0, 3, 3, jpMenu);
-        }
-        
-
-    }//GEN-LAST:event_tbMenuMouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         System.exit(0);
@@ -126,6 +328,75 @@ public class Inicio extends javax.swing.JFrame {
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         this.setState(Inicio.ICONIFIED);
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jbRecibidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRecibidosActionPerformed
+        mensajeRecibido = MailDAO.listMAilReceiverUser(usuarioLogeado);
+        jPanel2.setVisible(true);
+        jPanel3.setVisible(false);
+    }//GEN-LAST:event_jbRecibidosActionPerformed
+
+    private void jbEnviadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEnviadosActionPerformed
+        mensajes = null;
+        mensajes = MailDAO.listMAilSenderUser(usuarioLogeado);
+
+        jPanel2.setVisible(false);
+        jPanel3.setVisible(true);
+    }//GEN-LAST:event_jbEnviadosActionPerformed
+
+    private void jtRecibidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtRecibidosMouseClicked
+        MailDAO.changeNoReadToRead(mensajeSeleccionado.getSender(), mensajeSeleccionado.getReceiver(), mensajeSeleccionado.getDate());
+        VistaCorreo v = new VistaCorreo(this, true, mensajeSeleccionado);
+        v.setVisible(true);
+    }//GEN-LAST:event_jtRecibidosMouseClicked
+
+    private void jtEnviadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtEnviadosMouseClicked
+        VistaCorreo v = new VistaCorreo(this, true, mensajeSeleccionado);
+        v.setVisible(true);
+    }//GEN-LAST:event_jtEnviadosMouseClicked
+
+    private void redactEmailIMGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_redactEmailIMGMouseClicked
+        // TODO add your handling code here:
+        jPanel2.setVisible(false);
+        jPanel3.setVisible(false);
+        sendEmail.setVisible(true);
+    }//GEN-LAST:event_redactEmailIMGMouseClicked
+
+    private void forEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_forEmailActionPerformed
+
+    private void canselIMGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_canselIMGMouseClicked
+        // TODO add your handling code here:
+        jPanel2.setVisible(true);
+        jPanel3.setVisible(false);
+        sendEmail.setVisible(false);
+    }//GEN-LAST:event_canselIMGMouseClicked
+
+    private void sendIMGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sendIMGMouseClicked
+
+        if (forEmail.getText().equals("")) {
+            showErrorMessage("Debe introducir el mail que quieres enviar");
+        } else {
+            try {
+                MailDAO.sendMail(usuarioLogeado, forEmail.getText(), subject.getText(), tlBody.getText());
+                String timeStamp = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+//                mensajes.add(new Mensaje(usuarioLogeado, forEmail.getText(), timeStamp, "false", subject.getText(), tlBody.getText()));
+//                TableModel model = jTable2.getModel();
+//                model.addTableModelListener(jTable2);
+            } catch (ExcepcionMail ex) {
+                showErrorMessage(ex.getMessage());
+            }
+        }
+        jPanel2.setVisible(true);
+        jPanel3.setVisible(false);
+        sendEmail.setVisible(false);
+
+    }//GEN-LAST:event_sendIMGMouseClicked
+
+    public void showErrorMessage(String message) {
+        ImageIcon icon = new ImageIcon("C:\\Users\\chen\\Google Drive\\DAM2\\Programacion\\Daniel\\PracticaAddBBDD\\src\\images\\icons8_Error_50px.png");
+        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.WARNING_MESSAGE, icon);
+    }
 
     /**
      * @param args the command line arguments
@@ -153,6 +424,9 @@ public class Inicio extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -163,12 +437,29 @@ public class Inicio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel canselIMG;
+    private javax.swing.JTextField forEmail;
+    private javax.swing.JLabel jLAsunto;
+    private javax.swing.JLabel jLPara;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JPanel jpMenu;
-    private javax.swing.JToggleButton tbMenu;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JButton jbEnviados;
+    private javax.swing.JButton jbRecibidos;
+    private javax.swing.JTable jtEnviados;
+    private javax.swing.JTable jtRecibidos;
+    private javax.swing.JLabel redactEmailIMG;
+    private javax.swing.JPanel sendEmail;
+    private javax.swing.JLabel sendIMG;
+    private javax.swing.JTextField subject;
+    private javax.swing.JTextArea tlBody;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

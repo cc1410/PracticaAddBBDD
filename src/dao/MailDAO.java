@@ -11,6 +11,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.model.Updates;
 import excepciones.ExcepcionMail;
 import java.awt.List;
@@ -137,6 +138,11 @@ public class MailDAO {
             conectarTabla("message").deleteOne(findQuery);
             System.out.println("Message Eliminado");
         }
+    }
+
+    public static void changeNoReadToRead(String sender, String receiver, String dateTime) {
+        conectarTabla("message").updateOne(Filters.and(eq("sender", sender), eq("receiver", receiver), eq("date", dateTime)),
+                    Updates.set("read", "true"));
     }
     //borrar mail
     //buscar mail por subjet

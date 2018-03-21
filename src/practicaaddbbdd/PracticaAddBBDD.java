@@ -112,7 +112,7 @@ public class PracticaAddBBDD {
     public static void conectarMongo() {
         MongoClient mongo = MailDAO.conectar();
         if (mongo != null) {
-
+            
         } else {
             System.out.println("Error de conection");
         }
