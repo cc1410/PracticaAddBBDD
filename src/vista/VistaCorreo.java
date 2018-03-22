@@ -74,6 +74,7 @@ public class VistaCorreo extends javax.swing.JDialog {
         jlbMessageSend = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Correo");
         setFocusable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
