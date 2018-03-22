@@ -6,14 +6,7 @@
 package practicaaddbbdd;
 
 import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
 import dao.MailDAO;
-import excepciones.ExcepcionMail;
-import java.util.ArrayList;
-import modelo.Mensaje;
-import modelo.Usuario;
-import org.bson.Document;
 import vista.Login;
 
 /**

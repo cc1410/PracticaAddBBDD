@@ -14,12 +14,6 @@ import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.model.Updates;
 import excepciones.ExcepcionMail;
-import java.awt.List;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Calendar;
 import modelo.ListaMensaje;
 import modelo.Mensaje;
 import org.bson.Document;
@@ -44,6 +38,8 @@ public class MailDAO {
         MongoCollection<Document> tabla = conectarBBDD().getCollection(nombreTabla);
         return tabla;
     }
+    
+    
 
     public static void insertUser(String mail, String password, String nombre) throws ExcepcionMail {
         if (existMail(mail)) {
