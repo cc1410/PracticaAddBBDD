@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import modelo.Mensaje;
 import modelo.Usuario;
 import org.bson.Document;
-import vista.Principal;
+import vista.Login;
 
 /**
  *
@@ -104,7 +104,7 @@ public class PracticaAddBBDD {
 //        } else {
 //            System.err.println("Error de conexión");
 //        }
-        Principal p = new Principal();
+        Login p = new Login();
         p.setLocationRelativeTo(null);
         p.setVisible(true);
     }

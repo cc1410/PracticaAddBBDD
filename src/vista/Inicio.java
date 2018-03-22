@@ -5,7 +5,6 @@
  */
 package vista;
 
-
 import dao.MailDAO;
 import excepciones.ExcepcionMail;
 import java.awt.Color;
@@ -17,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import modelo.ListaMensaje;
 import modelo.Mensaje;
 import static practicaaddbbdd.PracticaAddBBDD.usuarioLogeado;
 
@@ -29,26 +29,8 @@ public class Inicio extends javax.swing.JFrame {
     /**
      * Creates new form Inicio
      */
-    private List<Mensaje> mensajes;
-
-    public List<Mensaje> getMensajes() {
-        return mensajes;
-    }
-
-    private List<Mensaje> mensajeRecibido;
-
-    public List<Mensaje> getMensajeRecibido() {
-        return mensajeRecibido;
-    }
-
-    public void setMensajeRecibido(List<Mensaje> mensajeRecibido) {
-        this.mensajeRecibido = mensajeRecibido;
-    }
-
-    public void setMensajes(List<Mensaje> mensajes) {
-        this.mensajes = mensajes;
-    }
-
+    public static ListaMensaje mensajes;
+    public static ListaMensaje mensajeRecibido;
     private Mensaje mensajeSeleccionado;
 
     public Mensaje getMensajeSeleccionado() {
@@ -58,6 +40,25 @@ public class Inicio extends javax.swing.JFrame {
     public void setMensajeSeleccionado(Mensaje mensajeSeleccionado) {
         this.mensajeSeleccionado = mensajeSeleccionado;
     }
+
+    public ListaMensaje getMensajes() {
+        return mensajes;
+    }
+
+    public void setMensajes(ListaMensaje mensajes) {
+        this.mensajes = mensajes;
+    }
+
+    public ListaMensaje getMensajeRecibido() {
+        return mensajeRecibido;
+    }
+
+    public void setMensajeRecibido(ListaMensaje mensajeRecibido) {
+        this.mensajeRecibido = mensajeRecibido;
+    }
+
+    int x = 0;
+    int y = 0;
 
     public Inicio() {
         mensajeRecibido = MailDAO.listMAilReceiverUser(usuarioLogeado);
@@ -105,6 +106,16 @@ public class Inicio extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                formMouseDragged(evt);
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                formMousePressed(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(241, 241, 242));
@@ -160,16 +171,19 @@ public class Inicio extends javax.swing.JFrame {
             }
         ));
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${mensajeRecibido}");
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${mensajeRecibido.lista}");
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jtRecibidos);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${sender}"));
-        columnBinding.setColumnName("Sender");
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${receiver}"));
+        columnBinding.setColumnName("Receiver");
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${subjet}"));
         columnBinding.setColumnName("Subjet");
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${date}"));
         columnBinding.setColumnName("Date");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${read}"));
+        columnBinding.setColumnName("Read");
         columnBinding.setColumnClass(String.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${mensajeSeleccionado}"), jtRecibidos, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
@@ -202,7 +216,7 @@ public class Inicio extends javax.swing.JFrame {
             }
         ));
 
-        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${mensajes}");
+        eLProperty = org.jdesktop.beansbinding.ELProperty.create("${mensajes.lista}");
         jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jtEnviados);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${sender}"));
         columnBinding.setColumnName("Sender");
@@ -212,6 +226,9 @@ public class Inicio extends javax.swing.JFrame {
         columnBinding.setColumnClass(String.class);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${date}"));
         columnBinding.setColumnName("Date");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${read}"));
+        columnBinding.setColumnName("Read");
         columnBinding.setColumnClass(String.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${mensajeSeleccionado}"), jtEnviados, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
@@ -322,7 +339,7 @@ public class Inicio extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        System.exit(0);
+        showCloseInformation();
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
@@ -330,14 +347,12 @@ public class Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jbRecibidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRecibidosActionPerformed
-        mensajeRecibido = MailDAO.listMAilReceiverUser(usuarioLogeado);
+
         jPanel2.setVisible(true);
         jPanel3.setVisible(false);
     }//GEN-LAST:event_jbRecibidosActionPerformed
 
     private void jbEnviadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEnviadosActionPerformed
-        mensajes = null;
-        mensajes = MailDAO.listMAilSenderUser(usuarioLogeado);
 
         jPanel2.setVisible(false);
         jPanel3.setVisible(true);
@@ -345,6 +360,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void jtRecibidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtRecibidosMouseClicked
         MailDAO.changeNoReadToRead(mensajeSeleccionado.getSender(), mensajeSeleccionado.getReceiver(), mensajeSeleccionado.getDate());
+        mensajeSeleccionado.setRead("true");
         VistaCorreo v = new VistaCorreo(this, true, mensajeSeleccionado);
         v.setVisible(true);
     }//GEN-LAST:event_jtRecibidosMouseClicked
@@ -378,13 +394,18 @@ public class Inicio extends javax.swing.JFrame {
             showErrorMessage("Debe introducir el mail que quieres enviar");
         } else {
             try {
-                MailDAO.sendMail(usuarioLogeado, forEmail.getText(), subject.getText(), tlBody.getText());
                 String timeStamp = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
-//                mensajes.add(new Mensaje(usuarioLogeado, forEmail.getText(), timeStamp, "false", subject.getText(), tlBody.getText()));
-//                TableModel model = jTable2.getModel();
-//                model.addTableModelListener(jTable2);
+                Mensaje m = new Mensaje(usuarioLogeado, forEmail.getText(), timeStamp, "false", subject.getText(), tlBody.getText());
+                MailDAO.sendMail(m);
+                mensajes.getLista().add(m);
+                forEmail.setText("");
+                subject.setText("");
+                tlBody.setText("");
             } catch (ExcepcionMail ex) {
                 showErrorMessage(ex.getMessage());
+                forEmail.setText("");
+                subject.setText("");
+                tlBody.setText("");
             }
         }
         jPanel2.setVisible(true);
@@ -393,9 +414,26 @@ public class Inicio extends javax.swing.JFrame {
 
     }//GEN-LAST:event_sendIMGMouseClicked
 
+    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
+
+        this.setLocation(this.getLocation().x + evt.getX() - x, this.getLocation().y + evt.getY() - y);
+    }//GEN-LAST:event_formMouseDragged
+
+    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
+        x = evt.getX();
+        y = evt.getY();
+    }//GEN-LAST:event_formMousePressed
+
     public void showErrorMessage(String message) {
         ImageIcon icon = new ImageIcon("C:\\Users\\chen\\Google Drive\\DAM2\\Programacion\\Daniel\\PracticaAddBBDD\\src\\images\\icons8_Error_50px.png");
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.WARNING_MESSAGE, icon);
+    }
+
+    public void showCloseInformation() {
+        int x = JOptionPane.showConfirmDialog(this, "Quieres cerrar el programa", "", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (x == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
     }
 
     /**

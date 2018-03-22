@@ -7,9 +7,12 @@ package vista;
 
 import dao.MailDAO;
 import excepciones.ExcepcionMail;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import modelo.Mensaje;
+import org.jdesktop.observablecollections.ObservableListListener;
 import static practicaaddbbdd.PracticaAddBBDD.usuarioLogeado;
 
 /**
@@ -27,6 +30,8 @@ public class VistaCorreo extends javax.swing.JDialog {
     public void setMensaje(Mensaje mensaje) {
         this.mensaje = mensaje;
     }
+
+
 
     /**
      * Creates new form VistaCorreo
@@ -77,6 +82,11 @@ public class VistaCorreo extends javax.swing.JDialog {
 
         deleteIMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         deleteIMG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_Remove_50px.png"))); // NOI18N
+        deleteIMG.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteIMGMouseClicked(evt);
+            }
+        });
         jpShowEmail.add(deleteIMG, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 10, 60, 60));
 
         replyIMG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -199,7 +209,10 @@ public class VistaCorreo extends javax.swing.JDialog {
     private void sendIMGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sendIMGMouseClicked
 
         try {
-            MailDAO.sendMail(usuarioLogeado, mensaje.getSender(), subject.getText(), tlBody.getText());
+            String timeStamp = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+            Mensaje m = new Mensaje(usuarioLogeado, mensaje.getSender(), timeStamp, "false", subject.getText(), tlBody.getText());
+            MailDAO.sendMail(m);
+            Inicio.mensajes.getLista().add(m);
             jlbMessageSend.setText("Mensaje enviado");
             subject.setText("");
             tlBody.setText("");
@@ -207,12 +220,29 @@ public class VistaCorreo extends javax.swing.JDialog {
             showErrorMessage(ex.getMessage());
         }
 
+
     }//GEN-LAST:event_sendIMGMouseClicked
 
     private void replyIMGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_replyIMGMouseClicked
         sendEmail.setVisible(true);
         jpShowEmail.setVisible(false);
     }//GEN-LAST:event_replyIMGMouseClicked
+
+    private void deleteIMGMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteIMGMouseClicked
+        int x = JOptionPane.showConfirmDialog(this, "Quieres eliminar este mail?", "", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (x == JOptionPane.YES_OPTION) {
+            Mensaje m = new Mensaje(mensaje.getSender(), mensaje.getReceiver(), mensaje.getDate(), mensaje.getRead(), mensaje.getSubjet(), mensaje.getBody());
+            for (int i = 0; i < Inicio.mensajes.getLista().size(); i++) {
+                Inicio.mensajes.getLista().remove(i);
+                Inicio.mensajeRecibido.getLista().remove(i);
+            }
+
+            //Inicio.mensajes.getLista().removeObservableListListener((ObservableListListener) m);
+            MailDAO.deleteMail(m);
+            this.setVisible(false);
+        }
+
+    }//GEN-LAST:event_deleteIMGMouseClicked
 
     public void showErrorMessage(String message) {
         ImageIcon icon = new ImageIcon("C:\\Users\\chen\\Google Drive\\DAM2\\Programacion\\Daniel\\PracticaAddBBDD\\src\\images\\icons8_Error_50px.png");

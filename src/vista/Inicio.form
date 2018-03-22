@@ -9,6 +9,10 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="mouseDragged" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="formMouseDragged"/>
+    <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="formMousePressed"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -157,14 +161,17 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="elements" source="Form" sourcePath="${mensajeRecibido}" target="jtRecibidos" targetPath="elements" updateStrategy="0" immediately="true">
-                      <Subbinding sourcePath="${sender}">
+                    <BindingProperty name="elements" source="Form" sourcePath="${mensajeRecibido.lista}" target="jtRecibidos" targetPath="elements" updateStrategy="0" immediately="true">
+                      <Subbinding sourcePath="${receiver}">
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                       </Subbinding>
                       <Subbinding sourcePath="${subjet}">
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                       </Subbinding>
                       <Subbinding sourcePath="${date}">
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                      </Subbinding>
+                      <Subbinding sourcePath="${read}">
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                       </Subbinding>
                     </BindingProperty>
@@ -223,7 +230,7 @@
                     </Property>
                   </Properties>
                   <BindingProperties>
-                    <BindingProperty name="elements" source="Form" sourcePath="${mensajes}" target="jtEnviados" targetPath="elements" updateStrategy="0" immediately="true">
+                    <BindingProperty name="elements" source="Form" sourcePath="${mensajes.lista}" target="jtEnviados" targetPath="elements" updateStrategy="0" immediately="true">
                       <Subbinding sourcePath="${sender}">
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                       </Subbinding>
@@ -231,6 +238,9 @@
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                       </Subbinding>
                       <Subbinding sourcePath="${date}">
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
+                      </Subbinding>
+                      <Subbinding sourcePath="${read}">
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="String.class"/>
                       </Subbinding>
                     </BindingProperty>
